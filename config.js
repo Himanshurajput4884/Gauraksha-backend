@@ -12,6 +12,7 @@ const {
     MESSAGING_SENDER_ID,
     APP_ID,
     MEASUREMENT_ID,
+    SECRET_KEY,
 } = process.env;
 
 
@@ -19,6 +20,7 @@ module.exports = {
     port:PORT,
     host:HOST,
     url:HOST_URL,
+    secretKey:SECRET_KEY,
     firebaseConfig:{
         apiKey:API_KEY,
         authDomain:AUTH_DOMAIN,
