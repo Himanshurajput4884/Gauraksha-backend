@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const router = require("./apis/routes");
 const dotenv = require("dotenv");
 const config = require("./config");
-const db = require("./db/db.js");
+// const db = require("./db/db.js");
 // const firestore = db.firestore();
 dotenv.config();
 
@@ -20,6 +20,7 @@ app.use(function(req,res,next){
 });
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(router);
 

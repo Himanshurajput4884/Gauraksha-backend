@@ -1,42 +1,39 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config.js");
-const {firebaseApp, firestore} = require("../db/db.js");
-const {collection} = require("firebase/firestore");
+const { firebaseApp, db } = require("../db/db.js");
+const { collection, doc, getDoc } = require("firebase/firestore");
 
+const adminCollectionRef = collection(db, 'Admin');
 
-const adminCollectionRef = collection(firestore, 'Admin');
+const adminVerify = async (req, res, next) => {
+    const token =
+        req.body.token ||
+        req.query.token ||
+        req.headers["x-access-token"] ||
+        (req.headers.authorization && req.headers.authorization.split(' ')[1]);
 
-const adminVerify = async (req,res,next)=>{
-    const token = req.body.token ||
-    req.query.token || 
-    req.headers["x-access-token"] ||
-    req.headers.authorization;
-
-    console.log("Token: ", token);
-    if(!token){
-        return res.status(400).json({message:"Token not found"});
+    if (!token) {
+        return res.status(400).json({ message: "Token not found" });
     }
-    
-    try{
+
+    try {
         const getToken = jwt.verify(token, config.secretKey);
         const adminId = getToken.adminId;
+        console.log("AdminId: ", adminId);
 
-        const docRef = adminCollectionRef.doc(adminId);
-        const docSnopshot = await docRef.get();
+        const docRef = doc(adminCollectionRef, adminId); 
+        const docSnapshot = await getDoc(docRef);
 
-        if(docSnopshot.exists){
+        if (docSnapshot.exists()) {
             req.body.adminId = adminId;
             next();
-        }   
-        else{
-            return res.status(400).json({message:"Invalid Token"});
+        } else {
+            return res.status(400).json({ message: "Invalid Token" });
         }
-    }
-    catch(err){
+    } catch (err) {
         console.log("Error in adminVerify: ", err);
-        return res.status(400).json({message:"Invalid Token"});
+        return res.status(400).json({ message: "Invalid Token" });
     }
 }
-
 
 module.exports = adminVerify;
