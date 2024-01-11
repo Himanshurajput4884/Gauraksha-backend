@@ -107,7 +107,7 @@ const updatePassword = async (req, res, next) => {
                 throw new Error(err);
             } else if (isMatch) {
                 const encryptedPass = await bcrypt.hash(newPassword, 10);
-                const adminDocRef = doc(adminCollectionRef, adminId); 
+                const adminDocRef = doc(adminCollectionRef, adminId); // Use doc for referencing a specific document
                 await setDoc(adminDocRef, { username: username, password: encryptedPass });
                 return res.status(200).json({ message: "password update" });
             } else if (!isMatch) {
