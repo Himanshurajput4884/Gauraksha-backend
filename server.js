@@ -4,9 +4,15 @@ const cookieParser = require("cookie-parser");
 const router = require("./apis/routes");
 const dotenv = require("dotenv");
 const config = require("./config");
+const Razorpay = require("razorpay");
 // const db = require("./db/db.js");
 // const firestore = db.firestore();
 dotenv.config();
+
+const instance = new Razorpay({
+    key_id:process.env.RAZORPAY_API_KEY,
+    key_secret:process.env.RAZORPAY_APT_SECRET,
+});
 
 
 
@@ -31,3 +37,6 @@ app.listen(PORT, ()=>{
     console.log(`Server is running at ${PORT}`);
 });
 
+module.exports = {
+    instance,
+}

@@ -46,6 +46,7 @@ const addAdmin = async (req, res, next) => {
 }
 
 const loginAdmin = async (req, res, next) => {
+    console.log(req.body);
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({ message: "Missing required fields" });
@@ -56,12 +57,12 @@ const loginAdmin = async (req, res, next) => {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-            return res.status(400).json({ message: "Incorrect username and password" });
+            return res.status(401).json({ message: "Incorrect username and password" });
         }
 
         const firstDoc = querySnapshot.docs[0];
         const hashedPassword = firstDoc.data().password;
-
+        
         bcrypt.compare(password, hashedPassword, (err, isMatch) => {
             if (err) {
                 throw new Error(err);
@@ -76,7 +77,7 @@ const loginAdmin = async (req, res, next) => {
                 console.log(token);
                 return res.status(200).json({ message: "admin login", token: token });
             } else {
-                return res.status(400).json({ message: "Incorrect username and password" });
+                return res.status(401).json({ message: "Incorrect username and password" });
             }
         });
     } catch (err) {
