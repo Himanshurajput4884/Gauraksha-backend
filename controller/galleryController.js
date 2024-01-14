@@ -69,8 +69,8 @@ const showAllPhoto = async(req, res, next)=>{
 
 const deletePhoto = async(req,res,next)=>{
     try{
-        console.log(req.params);
-        const documentId = req.params.id;
+        console.log(req.query);
+        const documentId = req.query.id;
         console.log("DocumentId: ", documentId);
         if(!documentId){
             return res.status(401).json({message:"Image Id is missing"});

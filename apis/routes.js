@@ -24,7 +24,7 @@ router.post("/gallery/add/new", upload.single('image'), addPhoto);
 
 router.get("/gallery/show/all", showAllPhoto);
 
-router.delete(`/gallery/delete/:id`, deletePhoto);
+router.delete(`/gallery/delete`, adminVerify, deletePhoto);
 
 
 // activity routes
@@ -32,7 +32,7 @@ router.post("/activity/add/new", upload.single('image'), addBlog);
 
 router.get("/activity/show/all", showAllBlog);
 
-router.delete("/activity/delete/:id", deleteBlog);
+router.delete("/activity/delete", deleteBlog);
 
 
 // payment routes

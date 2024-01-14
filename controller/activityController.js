@@ -60,7 +60,7 @@ const showAllBlog = async(req, res, next)=>{
             }
             blogs.push(blog);
         })
-
+        console.log(blogs);
         return res.status(200).json({message:"Fetch All blogs", blogs:blogs});
     }
     catch(err){
@@ -71,7 +71,7 @@ const showAllBlog = async(req, res, next)=>{
 
 const deleteBlog = async(req,res,next)=>{
     try{
-        const documentId = req.params.id;
+        const documentId = req.query.id;
         console.log("DocumentId: ", documentId);
         if(!documentId){
             return res.status(401).json({message:"Document Id is missing"});

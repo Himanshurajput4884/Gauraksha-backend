@@ -9,7 +9,7 @@ const adminVerify = async (req, res, next) => {
     const token =
         (req.headers.authorization && req.headers.authorization.split(' ')[1]);
 
-
+    console.log("Token in adminVerify: ", token);
     if (!token) {
         return res.status(400).json({ message: "Token not found" });
     }
@@ -17,7 +17,7 @@ const adminVerify = async (req, res, next) => {
     try {
         const getToken = jwt.verify(token, config.secretKey);
         const adminId = getToken.adminId;
-        // console.log("AdminId: ", adminId);
+        console.log("AdminId: ", adminId);
 
         const docRef = doc(adminCollectionRef, adminId); 
         const docSnapshot = await getDoc(docRef);
