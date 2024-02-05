@@ -42,6 +42,12 @@ router.post("/payment/checkout", checkout);
 
 router.post("/payment/paymentverification", paymentVerification);
 
+// for cron-job
+router.get("/keep-alive", (req, res)=>{
+    console.log("Keep-alive");
+    return res.status(200).json({message:"Hey, I'm alive"});
+})
+
 module.exports = router;
 
 
